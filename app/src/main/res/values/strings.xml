@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Linio Android Test</string>
+    <string name="no_comments">No comments</string>
+    <string name="loading_lists">Cargando listas…</string>
+    <string name="favorites">Favoritos</string>
+    <string name="header_title_text">Todos mis favoritos (%d)</string>
+</resources>
