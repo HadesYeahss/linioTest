@@ -28,8 +28,10 @@ import linio.test.favoritos.model.ProductEntity;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder> {
 
     List<? extends ProductEntity> mProductsList;
-    private static String PRODUCT_WHIT_WARRANTY = "new";
-    private static Integer IS_LINIO_PLUS = 1;
+    private static String PRODUCT_CONDITION_NEW = "new";
+    private static String PRODUCT_CONDITION_REF = "refurbished";
+    private static Integer IS_LINIO_PLUS_LEVEL_1 = 1;
+    private static Integer IS_LINIO_PLUS_LEVEL_2 = 2;
 
     public ProductsAdapter() {
         setHasStableIds(true);
@@ -40,23 +42,25 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
      */
     public static class ProductsViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
+        ImageView productNewproduct;
         ImageView productImported;
+        ImageView productShipping;
         ImageView productPlus;
-        ImageView productWarranty;
 
         public ProductsViewHolder(View view) {
             super(view);
-            productImage = (ImageView) view.findViewById(R.id.product_image);
-            productImported = (ImageView) view.findViewById(R.id.image_imported);
-            productPlus = (ImageView) view.findViewById(R.id.linio_plus);
-            productWarranty = (ImageView) view.findViewById(R.id.icon_warranty);
+            productImage = view.findViewById(R.id.product_image);
+            productNewproduct = view.findViewById(R.id.icon_new_product);
+            productImported = view.findViewById(R.id.image_imported);
+            productPlus = view.findViewById(R.id.linio_plus);
+            productShipping = view.findViewById(R.id.icon_free_shipping);
         }
     }
 
     /**
      * Set products list to populate recyclerview
      *
-     * @param favoriteList
+     * @param favoriteList ProductEntity list
      */
     public void setProductList(final List<? extends ProductEntity> favoriteList) {
         if (mProductsList == null) {
@@ -78,20 +82,30 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     @Override
     public void onBindViewHolder(@NonNull ProductsViewHolder holder, int position) {
         ProductEntity product = mProductsList.get(position);
-        //TODO verify validations with the client
-        /*holder.productImported.setVisibility((product.isImported() ? View.VISIBLE : View.GONE));
+        holder.productNewproduct.setVisibility(
+                (product.getConditionType().equals(PRODUCT_CONDITION_NEW)
+                        || product.getConditionType().equals(PRODUCT_CONDITION_REF))
+                        ? View.VISIBLE : View.GONE);
+        if (product.getConditionType().equals(PRODUCT_CONDITION_REF)) {
+            holder.productNewproduct.setImageResource(R.drawable.nd_ic_refurbished_30);
+        }
         holder.productPlus.setVisibility(
-                (product.getLinioPlusLevel() == IS_LINIO_PLUS) ? View.VISIBLE : View.GONE);
-        holder.productWarranty.setVisibility((product.getConditionType()
-                .equals(PRODUCT_WHIT_WARRANTY)) ? View.VISIBLE : View.GONE);*/
+                (product.getLinioPlusLevel() == IS_LINIO_PLUS_LEVEL_1
+                        || product.getLinioPlusLevel() == IS_LINIO_PLUS_LEVEL_2)
+                        ? View.VISIBLE : View.GONE);
+        if (product.getLinioPlusLevel() == IS_LINIO_PLUS_LEVEL_2) {
+            holder.productPlus.setImageResource(R.drawable.nd_ic_plus_48_30);
+        }
+        holder.productImported.setVisibility((product.isImported()) ? View.VISIBLE : View.GONE);
+        holder.productShipping.setVisibility((product.isFreeShipping()) ? View.VISIBLE : View.GONE);
         setImage(product.getImage(), holder.productImage);
     }
 
     /**
      * Add image to ImageView whit Picasso
      *
-     * @param image
-     * @param view
+     * @param image Url to attach
+     * @param view ImageView to attach image
      */
     private void setImage(String image, ImageView view) {
         RequestCreator picaso = Picasso.get().load((!image.isEmpty()) ? image : null);

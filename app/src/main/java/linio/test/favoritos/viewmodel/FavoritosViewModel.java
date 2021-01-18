@@ -39,12 +39,12 @@ public class FavoritosViewModel extends ViewModel {
     }
 
     /**
-     * Get object request whit filter
+     * Get object request whit filter PRIVATE
      *
      * @return List of RequestEntity
      */
     public LiveData<List<RequestEntity>> getRequestWhitPermisionRepository() {
-        List<RequestEntity> favoritefilterlist = new ArrayList<RequestEntity>();
+        List<RequestEntity> favoritefilterlist = new ArrayList<>();
         for (RequestEntity favoriteList : mRequestMutableLiveData.getValue()) {
             if (favoriteList.getVisibility().equals(LIST_PERMISION)) {
                 favoritefilterlist.add(favoriteList);
@@ -61,7 +61,7 @@ public class FavoritosViewModel extends ViewModel {
      * @return List of ProductEntity
      */
     public List<ProductEntity> getProducts() {
-        List<ProductEntity> products = new ArrayList<ProductEntity>();
+        List<ProductEntity> products = new ArrayList<>();
         for (RequestEntity favoriteList : mRequestMutableLiveData.getValue()) {
             for (Map.Entry<String, ProductEntity> entry : favoriteList.getProducts().entrySet()) {
                 //TODO verify validations with the client

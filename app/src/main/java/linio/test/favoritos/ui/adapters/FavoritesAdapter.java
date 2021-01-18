@@ -48,18 +48,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         public FavoriteListViewHolder(View view) {
             super(view);
-            favoriteListName = (TextView) view.findViewById(R.id.title_list);
-            favoriteListSize = (TextView) view.findViewById(R.id.list_size);
-            productImageOne = (ImageView) view.findViewById(R.id.products_list_one);
-            productImageTop = (ImageView) view.findViewById(R.id.image_top);
-            productImageBottom = (ImageView) view.findViewById(R.id.image_bottom);
+            favoriteListName = view.findViewById(R.id.title_list);
+            favoriteListSize = view.findViewById(R.id.list_size);
+            productImageOne = view.findViewById(R.id.products_list_one);
+            productImageTop = view.findViewById(R.id.image_top);
+            productImageBottom = view.findViewById(R.id.image_bottom);
         }
     }
 
     /**
      * Set favorite list to populate recyclerview
      *
-     * @param favoriteList
+     * @param favoriteList ProductEntity list
      */
     public void setFavoriteList(final List<? extends RequestEntity> favoriteList) {
         if (mFavoritesList == null) {
@@ -96,7 +96,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     /**
      * Add image to ImageView whit Picasso
      *
-     * @param image
+     * @param image Url to attach image
      */
     private void setImage(String image, int counter, FavoriteListViewHolder holder) {
         RequestCreator picaso = Picasso.get().load((!image.isEmpty()) ? image : null);
@@ -106,12 +106,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         switch (counter) {
             case 0: {
                 picaso.into(holder.productImageOne);
+                break;
             }
             case 1: {
                 picaso.into(holder.productImageTop);
+                break;
             }
             case 2: {
                 picaso.into(holder.productImageBottom);
+                break;
             }
             default: {
                 break;

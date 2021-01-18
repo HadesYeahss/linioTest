@@ -58,12 +58,14 @@ public class FavoritesListFragment extends Fragment {
         mBinding.setLifecycleOwner(getViewLifecycleOwner());
 
         subscribeUi(favoritosViewModel.getRequestRepository());
+        //TODO PRIVATE VALIDATION
+        //subscribeUi(favoritosViewModel.getRequestWhitPermisionRepository());
     }
 
     /**
      * Subscribe livedata to link a view objects
      *
-     * @param liveData
+     * @param liveData RequestEntity list
      */
     private void subscribeUi(LiveData<List<RequestEntity>> liveData) {
 
